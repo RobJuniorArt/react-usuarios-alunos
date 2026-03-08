@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 
 export default function MyRoute({ component: Component, isClosed, ...rest }) {
   //component, diz se esta aberta ou fechada e o resto das propriedades
-  const isLoggedIn = false;
+  const isLoggedIn = false; //essa variavel, vai estar dentro do estado do Redux, como se fosse um estado global
 
   if (isClosed && !isLoggedIn) {
     return (
       <Redirect
-        to={{ pathname: "/login", state: { prevPath: rest.location.pathname } }}
+        to={{ pathname: "/login", state: { prevPath: rest.location.pathname } }} //pego onde ele está e mando para rota anterior
       />
     );
   }
@@ -17,11 +17,11 @@ export default function MyRoute({ component: Component, isClosed, ...rest }) {
 }
 
 MyRoute.defaultProps = {
-  isClosed: false,
+  isClosed: false, //aqui dou um valor padráo para isclosed
 };
 
 MyRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-    .isRequired,
-  isClosed: PropTypes.bool,
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]) //aqui eu valido o que component pode ser, pode ser um componente ou uma funcao
+    .isRequired, //componente é requerido
+  isClosed: PropTypes.bool, //isclosed é booleano, pode ser true ou false
 };

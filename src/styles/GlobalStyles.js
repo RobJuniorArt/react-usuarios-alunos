@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { primaryColor, primaryDarkColor } from "../config/colors";
+import * as color from "../config/colors";
+import "react-toastify/dist/ReactToastify.css";
 
 export default createGlobalStyle`
   *{
@@ -11,8 +12,8 @@ export default createGlobalStyle`
 
   body{
     font-family: sans-serif;
-    background: ${primaryDarkColor};
-    color: ${primaryColor};
+    background: ${color.primaryDarkColor};
+    color: ${color.primaryColor};
   }
 
   html, body, #root{
@@ -21,7 +22,7 @@ export default createGlobalStyle`
 
   button{
     cursor: pointer;
-    background: ${primaryColor};
+    background: ${color.primaryColor};
     border: none;
     color: #fff;
     padding: 10px 20px;
@@ -35,6 +36,33 @@ export default createGlobalStyle`
   ul{
     list-style: none;
   }
+
+body .Toastify .Toastify__toast-container .Toastify__toast--success {
+background: ${color.successColor};
+color: #fff;
+
+}
+.Toastify__progress-bar--success {
+  background: #fff;
+}
+
+.Toastify__toast--success .Toastify__toast-icon svg {
+      fill: white; /* Muda a cor do símbolo */
+}
+
+body .Toastify .Toastify__toast-container .Toastify__toast--error {
+background: ${color.errorColor};
+color: #fff;
+
+}
+.Toastify__progress-bar--error {
+  background: #fff;
+}
+
+.Toastify__toast--error .Toastify__toast-icon svg {
+      fill: white; /* Muda a cor do símbolo */
+}
+
 `;
 
 export const Container = styled.section`
