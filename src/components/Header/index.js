@@ -1,12 +1,27 @@
 import React from "react";
-import { FaHome, FaSignInAlt, FaUserAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaSignInAlt,
+  FaUserAlt,
+  FaCircle,
+  FaPowerOff,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
-
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "../../store/modules/auth/actions";
+import history from "../../services/history";
 import { Nav } from "./styled";
 
 export default function Header() {
-  const botaoClicado = useSelector((state) => state.example.botaoClicado); //aqui estou jogando para botao clicado, que vai ser atualizado ali depois do </link>
+  const dispatch = useDispatch(); //preciso disparar a açao
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(actions.loginFailure());
+    history.push("/");
+  };
+
   return (
     <>
       <Nav>
@@ -14,14 +29,21 @@ export default function Header() {
           <FaHome size={24} />
         </Link>
 
-        <Link to="/login">
+        <Link to="/register">
           <FaUserAlt size={24} />
         </Link>
 
-        <Link to="/teste">
-          <FaSignInAlt size={24} />
-        </Link>
-        {botaoClicado ? "Clicado" : "Nao clicado"}
+        {isLoggedIn ? (
+          <Link onClick={handleLogout} to="/">
+            <FaPowerOff size={24} />
+          </Link>
+        ) : (
+          <Link to="/login">
+            <FaSignInAlt size={24} />
+          </Link>
+        )}
+
+        {isLoggedIn && <FaCircle size={10} color="#6f3" />}
       </Nav>
     </>
   );

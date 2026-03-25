@@ -5,9 +5,9 @@ import { persistReducer } from "redux-persist";
 const createPersistReducer = (reducers) => {
   const persistedReducers = persistReducer(
     {
-      key: "REACT-BASE",
+      key: "CONSUMO-API",
       storage,
-      whitelist: ["example"],
+      whitelist: ["auth"], //se eu quiser salvar outro modulo, so separar por virgula
     },
     reducers,
   );

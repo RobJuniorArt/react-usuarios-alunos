@@ -1,43 +1,30 @@
-# React Base
+# 🚀 Sistema de Gestão de Alunos - API REST & React
 
-Projeto de estudos em React.js com foco em boas práticas e tecnologias atuais de mercado.
+Projeto em desenvolvimento focado no gerenciamento de alunos, integrando um front-end moderno em React com uma arquitetura de API robusta.
 
-Baseado no curso de React do Luiz Otávio Miranda, adaptado para as versões mais recentes (React 19, Redux Toolkit, Redux Saga, Redux Persist).
+## 🛠️ Tecnologias e Conceitos Absorvidos
 
-## 🚀 Tecnologias
+### Front-end (React)
 
-- React 19
-- Redux + Redux Saga + Redux Persist
-- Styled Components
-- React Router Dom
-- Axios
-- Node.js / Express (API consumida)
-- Docker
+- **Componentização & Props:** Organização da interface em componentes reutilizáveis.
+- **Styled Components:** Estilização avançada com CSS-in-JS.
+- **React Router Dom:** Gerenciamento de rotas e navegação dinâmica.
+- **Redux & Redux Saga:** Gestão de estado global e tratamento de chamadas assíncronas (Side Effects).
+- **Axios:** Integração com serviços de API.
+- **Formulários & Validação:** Uso de bibliotecas como React Toastify para feedback visual.
 
-## 📚 O que estou aprendendo
+### Back-end & Arquitetura
 
-- Gerenciamento de estado com Redux e middlewares
-- Consumo de APIs REST com Axios
-- Persistência de estado com Redux Persist
-- Roteamento com React Router
-- Boas práticas de commits e versionamento
+- **Node.js & Express:** Base para criação da API REST.
+- **Middlewares:** Implementação de funções de interceptação (ex: logs, autenticação, delay de latência).
+- **Simulação de Latência:** Uso de funções de delay para testar o comportamento da UI em carregamentos lentos.
 
-## 🛠️ Como rodar
+### Fundamentos de Engenharia
 
-1. Clone o repositório:
+- **Estruturas de Dados:** Aplicação de conceitos de organização de memória e tipos de dados.
+- **Git & GitHub:** Fluxo de trabalho com commits constantes e versionamento.
 
-```bash
-git clone https://github.com/RobJuniorArt/react-base.git
-```
+## 📝 Como executar
 
-2. Instale as dependências:
-
-```bash
-npm install
-```
-
-3. Rode o projeto:
-
-```bash
-npm start
-```
+1. Instale as dependências: `npm install`
+2. Inicie o projeto: `npm start`
