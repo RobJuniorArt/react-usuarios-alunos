@@ -9,7 +9,13 @@ import {
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Container } from "../../styles/GlobalStyles";
-import { AlunoContainer, ProfilePicture, EditLink, CloseLink } from "./styled";
+import {
+  AlunoContainer,
+  ProfilePicture,
+  EditLink,
+  CloseLink,
+  NovoAluno,
+} from "./styled";
 import axios from "../../services/axios";
 import Loading from "../../components/Loading";
 import { toast } from "react-toastify";
@@ -64,6 +70,10 @@ export default function Alunos() {
     <Container>
       <Loading isLoading={isLoading} />
       <h2>Alunos</h2>
+      <NovoAluno to="/aluno/">
+        <button>Novo Aluno</button>{" "}
+      </NovoAluno>
+
       <AlunoContainer>
         {alunos.map((aluno, index) => (
           <div key={String(aluno.id)}>

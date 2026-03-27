@@ -1,15 +1,191 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import * as actions from "../../store/modules/auth/actions";
 import { Container } from "../../styles/GlobalStyles";
-import { Title, Paragrafo } from "./styled";
+import { Title, Paragrafo, Form } from "./styled";
+import { get } from "lodash";
+import PropTypes from "prop-types";
+import { isEmail, isInt, isFloat } from "validator";
+import { toast } from "react-toastify";
+import Loading from "../../components/Loading";
+import axios from "../../services/axios";
+import history from "../../services/history";
 
 import * as exampleActions from "../../store/modules/example/actions";
+import { useState } from "react";
 
-export default function Aluno() {
+export default function Aluno({ match }) {
   const dispatch = useDispatch();
+  const id = get(match, "params.id", 0);
+  const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
+  const [email, setEmail] = useState("");
+  const [idade, setIdade] = useState("");
+  const [peso, setPeso] = useState("");
+  const [altura, setAltura] = useState("");
+  const [isLoading, setIsLoading] = useState("");
+
+  useEffect(() => {
+    if (!id) return;
+    async function getData() {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(`/alunos/${id}`);
+        const Foto = get(data, "Fotos[0].url", "");
+
+        setNome(data.nome);
+        setSobrenome(data.sobrenome);
+        setEmail(data.email);
+        setIdade(data.idade);
+        setPeso(data.peso);
+        setAltura(data.altura);
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
+        const status = get(err, "response.status", 0);
+        const errors = get(err, "response.data.errors", []);
+
+        if (status === 400) errors.map((error) => toast.error(error));
+        history.push("/");
+      }
+    }
+    getData();
+  }, [id]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let formErrors = false;
+
+    if (nome.length < 3 || nome.length > 255) {
+      console.log(nome.length);
+      toast.error("Nome precisa ter entre 3 e 255 caracterres.");
+      formErrors = true;
+    }
+
+    if (sobrenome.length < 3 || sobrenome.length > 255) {
+      console.log(sobrenome.length);
+      toast.error("Sobrenome precisa ter entre 3 e 255 caracterres.");
+      formErrors = true;
+    }
+
+    if (!isEmail(email)) {
+      toast.error("Email invalido.");
+      formErrors = true;
+    }
+
+    if (!isInt(String(idade))) {
+      toast.error("Idade invalida.");
+      formErrors = true;
+    }
+    if (!isFloat(String(peso))) {
+      toast.error("Peso invalido.");
+      formErrors = true;
+    }
+    if (!isFloat(String(altura))) {
+      toast.error("Altura invalida.");
+      formErrors = true;
+    }
+
+    if (formErrors) return;
+
+    try {
+      setIsLoading(true);
+      if (id) {
+        //editando
+        await axios.put(`/alunos/${id}`, {
+          nome,
+          sobrenome,
+          email,
+          idade,
+          peso,
+          altura,
+        });
+        toast.success("Aluno(a) editado(a) com sucesso!");
+      } else {
+        //criando
+        const { data } = await axios.post(`/alunos/`, {
+          nome,
+          sobrenome,
+          email,
+          idade,
+          peso,
+          altura,
+        });
+        toast.success("Aluno(a) criado(a) com sucesso!");
+        history.push(`/aluno/${data.id}/edit`);
+      }
+      setIsLoading(false);
+    } catch (err) {
+      const status = get(err, "response.status", 0);
+      const data = get(err, "response.data", {});
+      const errors = get(data, "errors", []);
+
+      if (errors.length > 0) {
+        errors.map((error) => toast.error(error));
+      } else {
+        toast.error("Error Desconhecido");
+      }
+      if (status === 401) {
+        dispatch(actions.loginFailure); //se vier algum erro de sem autorização, ec o tolkien for auterado ele da erro.
+      }
+    }
+  };
+
+  //const dispatch = useDispatch();
   return (
     <Container>
-      <h2>Aluno</h2>
+      <Loading isLoading={isLoading} />
+      <h2>{id ? "Editar Aluno" : "Novo Aluno"}</h2>
+
+      <Form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={nome}
+          placeholder="Nome"
+          onChange={(e) => setNome(e.target.value)}
+        />
+
+        <input
+          type="text"
+          value={sobrenome}
+          placeholder="Sobrenome"
+          onChange={(e) => setSobrenome(e.target.value)}
+        />
+
+        <input
+          type="email"
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="number"
+          value={idade}
+          placeholder="Idade"
+          onChange={(e) => setIdade(e.target.value)}
+        />
+
+        <input
+          type="text"
+          value={peso}
+          placeholder="Peso"
+          onChange={(e) => setPeso(e.target.value)}
+        />
+
+        <input
+          type="text"
+          value={altura}
+          placeholder="Altura"
+          onChange={(e) => setAltura(e.target.value)}
+        />
+
+        <button type="submit">Enviar</button>
+      </Form>
     </Container>
   );
 }
+
+Aluno.propTypes = {
+  match: PropTypes.shape({}).isRequired,
+};

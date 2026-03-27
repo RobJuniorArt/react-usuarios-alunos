@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import styled from "styled-components";
+import { primaryColor } from "../../config/colors";
 
 export const Title = styled.h1`
   color: ${(props) => (props.isRed ? "red" : "blue")};
@@ -54,4 +55,11 @@ export const CloseLink = styled(Link)`
       color: #000;
     }
   }
+`;
+
+export const NovoAluno = styled(Link)`
+  display: block;
+  padding: 20px 0 10px 0;
+  color: ${primaryColor};
+  font-weight: bold;
 `;
