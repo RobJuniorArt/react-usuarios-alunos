@@ -126,7 +126,7 @@ export default function Aluno({ match }) {
         toast.error("Error Desconhecido");
       }
       if (status === 401) {
-        dispatch(actions.loginFailure); //se vier algum erro de sem autorização, ec o tolkien for auterado ele da erro.
+        dispatch(actions.loginFailure); //se vier algum erro de sem autorização, ex: o tolkien for auterado, ele dará erro.
       }
     }
   };
