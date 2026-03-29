@@ -7,7 +7,7 @@ import * as actions from "../../store/modules/auth/actions";
 import { useDispatch } from "react-redux";
 import { Container } from "../../styles/GlobalStyles";
 import Loading from "../../components/Loading";
-import { Title, Form } from "./styled";
+import { Title, Form, OutraFoto, ContainerFotos } from "./styled";
 import axios from "../../services/axios";
 import history from "../../services/history";
 
@@ -17,13 +17,20 @@ export default function Fotos({ match, history }) {
 
   const [isLoading, setiSLoading] = useState(false);
   const [foto, setFoto] = useState("");
+  const [outrasFotos, setOutrasFotos] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       try {
         setiSLoading(true);
         const { data } = await axios.get(`/alunos/${id}`); //entre chaves estou pulando o response e pegando data direto
-        setFoto(get(data, "Fotos[0].url", ""));
+
+        const ultimaFotoAdicionada = get(data, "Fotos", []);
+
+        if (ultimaFotoAdicionada.length > 0) {
+          setFoto(ultimaFotoAdicionada.at(-1).url);
+        }
+        setOutrasFotos(get(data, "Fotos", []));
         setiSLoading(false);
       } catch (err) {
         toast.error("Erro ao obter imagem.");
@@ -63,7 +70,6 @@ export default function Fotos({ match, history }) {
       if (status === 401) dispatch(actions.loginFailure());
     }
   };
-
   return (
     <Container>
       <Loading isLoading={isLoading} />
@@ -77,6 +83,14 @@ export default function Fotos({ match, history }) {
           )}
           <input type="file" id="foto" onChange={handleChange} />
         </label>
+
+        <ContainerFotos>
+          {outrasFotos.slice(1).map((f) => (
+            <OutraFoto key={f.ulr}>
+              <img src={f.url} alt="foto" crossOrigin="anonymous" />
+            </OutraFoto>
+          ))}
+        </ContainerFotos>
       </Form>
     </Container>
   );

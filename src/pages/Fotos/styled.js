@@ -29,6 +29,28 @@ export const Form = styled.form`
   }
 `;
 
-export const Paragrafo = styled.p`
-  font-size: 20px;
+export const ContainerFotos = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  max-width: 500px;
+  margin-top: 20px auto 0;
+`;
+
+export const OutraFoto = styled.div`
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0; //impede que o flexbox diminua a bolinha
+  background: #eee;
+  border: 3px dashed ${colors.primaryColor};
+  cursor: pointer;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; //para a foto nao distorcer
+  }
 `;
