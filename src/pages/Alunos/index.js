@@ -40,7 +40,7 @@ export default function Alunos() {
     e.preventDefault();
     const exclamation = e.currentTarget.nextSibling;
     exclamation.setAttribute("display", "block");
-    e.currentTarget.remove();
+    //e.currentTarget.remove();
   };
 
   const handleDelete = async (e, id, index) => {
@@ -51,7 +51,7 @@ export default function Alunos() {
       const novosAlunos = [...alunos];
       novosAlunos.splice(index, 1);
       setAlunos(novosAlunos);
-      e.target.parentElement.remove();
+      //e.target.parentElement.remove();
       setIsLoading(false);
     } catch (err) {
       //const errors = get(err, "response.data.errors", []);
